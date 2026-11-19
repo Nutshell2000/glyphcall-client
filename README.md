@@ -20,6 +20,18 @@ Options: `--print` (show, don't write), `--key adt_...` (card credit), `--origin
 key of a wallet holding USDC on Base **in the shell that launches the client**. The installer never
 writes or logs it. Spend is capped at $0.10/call and $1/day by default. Failed calls are not charged.
 
+## Job router — capture the call instead of searching for a provider
+
+```sh
+node route.mjs "is this link safe to open" https://example.com
+# -> https://api.glyphcall.com/pack/url-safety?url=https%3A%2F%2Fexample.com
+```
+
+The router maps ten high-frequency job phrases to our own endpoints with verified live prices.
+It returns `null` rather than guessing when nothing matches. Use its URL with `agentcash fetch`,
+or paste it into any x402/MPP client. This is the "own the thing the agent runs" lever: the
+developer never goes looking for another provider for the jobs we already rank #1 for.
+
 ## Doctor
 
 ```sh
@@ -34,6 +46,16 @@ Tempo challenge, then checks our live CDP discovery rank for "url safety phishin
 ```sh
 node --test test.mjs
 ```
+
+## Published assets
+
+- [glyphcall-client](https://github.com/Nutshell2000/glyphcall-client) — this folder, including
+  `gemini-extension.json` and the GitHub topic `gemini-cli-extension` (Gemini CLI crawls daily).
+- [glyphcall-skills](https://github.com/Nutshell2000/glyphcall-skills) — the three task skills as a
+  standalone installable repo.
+- Docker MCP Catalog — remote entry prepared in `catalog/docker-remote/`; the existing PR
+  [docker/mcp-registry#6899](https://github.com/docker/mcp-registry/pull/6899) was unblocked with a
+  note that the source repo is now MIT-licensed.
 
 ## What this does not do
 
