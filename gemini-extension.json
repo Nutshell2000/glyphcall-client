@@ -1,0 +1,10 @@
+{
+  "name": "glyphcall",
+  "version": "1.0.0",
+  "description": "Glyphcall: 650+ pay-per-call agent tools over MCP — EU company and VAT checks, sanctions screening, e-invoice validation, speech to text, web and PDF extraction, token prices and chain reads. 25 free calls, then USDC (x402/MPP) or a prepaid card key.",
+  "mcpServers": {
+    "glyphcall": {
+      "httpUrl": "https://api.glyphcall.com/mcp/compact"
+    }
+  }
+}
