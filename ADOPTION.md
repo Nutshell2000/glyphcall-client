@@ -35,6 +35,20 @@
    publish under `spellzcode` creator account.
 5. **npm client publish** — `agent-data-tools` v1.4.1 built; publish needs npm 2FA (owner).
 
+## Published / submitted during this session (20 Nov)
+
+| Channel | Action | Evidence |
+|---|---|---|
+| `glyphcall-client` | Published public GitHub repo (installer, router, doctor, Docker draft, skills) | `https://github.com/Nutshell2000/glyphcall-client`, commit 60f89e5 + c157c1d |
+| `glyphcall-skills` | Published public GitHub repo with the three task skills | `https://github.com/Nutshell2000/glyphcall-skills` |
+| Gemini CLI | Added `gemini-extension.json` and the crawlable topic `gemini-cli-extension` | `gh api repos/Nutshell2000/glyphcall-client --jq .topics` → `["gemini-cli-extension"]` |
+| Docker MCP Catalog | Commented on the existing open PR #6899 that the MIT licence block is resolved | `docker/mcp-registry#6899#issuecomment-7025092063` |
+| AgentCash skills | Currency update posted on the open, mergeable PR #46 | `Merit-Systems/agentcash-skills#46#issuecomment-7025215783` |
+| Pay.sh registry | Provider entry prepared (PAY.md + committed OpenAPI) and PR submitted for CI validation | branch `add-glyphcall-provider` in `Nutshell2000/pay-skills` |
+
+Local validator cannot check the Pay.sh entry because it mis-parses Windows absolute paths as FQN
+segments; CI on Linux resolves the repo-relative path correctly.
+
 ## Owner decisions that gate gains
 
 1. Publish `glyphcall-skills` to GitHub and link it from the npm client README.
