@@ -1,0 +1,20 @@
+name: glyphcall
+type: remote
+dynamic:
+  tools: true
+meta:
+  category: productivity
+  tags:
+    - productivity
+    - research
+    - data
+    - x402
+    - mpp
+    - pay-per-call
+about:
+  title: Glyphcall — pay-per-call agent data tools
+  description: One MCP server for 650+ pay-per-call tools: EU company registers and VAT (VIES) checks, sanctions screening, e-invoice validation, speech to text, web and PDF extraction, token prices and chain reads. 25 free calls over MCP, then USDC (x402 or MPP) or a prepaid card key. Failed calls are not charged.
+  icon: https://glyphcall.com/logo.png
+remote:
+  transport_type: streamable-http
+  url: https://api.glyphcall.com/mcp/compact
