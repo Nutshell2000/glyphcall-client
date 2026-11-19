@@ -9,6 +9,7 @@
 import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join, resolve } from "node:path";
+import { sendInstall } from "./telemetry.mjs";
 
 export const NAME = "glyphcall";
 export const DEFAULT_ORIGIN = "https://api.glyphcall.com";
@@ -87,7 +88,10 @@ function main() {
     console.error("Run that command in a terminal. Wallet mode: export AGENT_DATA_TOOLS_WALLET_KEY first.");
     return;
   }
-  mergeInto(configPath(target), built.section, built.entry, opts.print);
+  if (!opts.print) {
+    const done = mergeInto(configPath(target), built.section, built.entry, opts.print);
+    if (done) void sendInstall(target).catch(() => {}); // opt-in only; never blocks the install
+  } else mergeInto(configPath(target), built.section, built.entry, opts.print);
   console.error(`Server name: ${NAME}. Restart the client to load it. Wallet mode: set AGENT_DATA_TOOLS_WALLET_KEY in the launching shell.`);
 }
 
