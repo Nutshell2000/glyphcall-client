@@ -57,6 +57,14 @@ node --test test.mjs
   [docker/mcp-registry#6899](https://github.com/docker/mcp-registry/pull/6899) was unblocked with a
   note that the source repo is now MIT-licensed.
 
+## Measuring installs
+
+The installer sends one anonymous `client_install` event to our own first-party endpoint
+`https://api.glyphcall.com/e` (live, returns 204) with a random install id and the client target —
+no key, wallet, path or identity. Set `GLYPHCALL_TELEMETRY_OFF=1` to disable, or
+`GLYPHCALL_TELEMETRY_URL` to point at another collector. Compare install events with `/status`
+call counts to judge each channel; the per-event dashboard is owner-gated.
+
 ## What this does not do
 
 - No publish to npm (owner decision: 2FA), no account creation, no funds moved.
