@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { entryFor, NAME, DEFAULT_ORIGIN, mergeInto } from "./install.mjs";
 import { route, urlFor } from "./router.mjs";
-import { sendInstall, shouldSend } from "./telemetry.mjs";
+import { sendInstall, shouldSend, DEFAULT_TELEMETRY_URL } from "./telemetry.mjs";
 import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -66,12 +66,14 @@ test("router picks our endpoints for the big jobs", () => {
   assert.equal(route("something totally unrelated"), null);
 });
 
-test("telemetry is opt-in and sends no secrets", async () => {
-  assert.equal(shouldSend({}), false);
+test("telemetry sends to our first-party endpoint and no secrets, with opt-out", async () => {
+  assert.equal(shouldSend({}), true);
+  assert.equal(shouldSend({ GLYPHCALL_TELEMETRY_OFF: "1" }), false);
+  assert.equal((await sendInstall("cursor", { GLYPHCALL_TELEMETRY_OFF: "1" }, async () => { throw new Error("should not be called"); })).sent, false);
   let seen;
-  const r = await sendInstall("cursor", { GLYPHCALL_TELEMETRY_URL: "https://example.com/e?src=x" },
-    async (u) => { seen = u; return { ok: true }; });
+  const r = await sendInstall("cursor", {}, async (u) => { seen = u; return { ok: true }; });
   assert.equal(r.sent, true);
+  assert.ok(seen.startsWith(DEFAULT_TELEMETRY_URL));
   assert.match(seen, /ev=client_install/);
   assert.match(seen, /p=cursor/);
   assert.doesNotMatch(seen, /adt_|0x[0-9a-f]{64}/i);
