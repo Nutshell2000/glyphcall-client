@@ -27,7 +27,13 @@ node route.mjs "is this link safe to open" https://example.com
 # -> https://api.glyphcall.com/pack/url-safety?url=https%3A%2F%2Fexample.com
 ```
 
-The router maps ten high-frequency job phrases to our own endpoints with verified live prices.
+Fifteen job phrases are routed, including the heavy jobs we rank #1 for on Mercator:
+`accessibility audit` → `/audit/website`, `wcag` → `/color/contrast` (two args),
+`merchant trust` → `/merchant/trust`, `which api` → `/recommend`,
+`is this token safe` → `/token/verdict`. Query parameter names were verified against the live
+discovery schemas (e.g. `/recommend` takes `need`, `/merchant/trust` takes `name`).
+
+The router maps those phrases to our own endpoints with verified live prices.
 It returns `null` rather than guessing when nothing matches. Use its URL with `agentcash fetch`,
 or paste it into any x402/MPP client. This is the "own the thing the agent runs" lever: the
 developer never goes looking for another provider for the jobs we already rank #1 for.
