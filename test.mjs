@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { entryFor, NAME, DEFAULT_ORIGIN, mergeInto } from "./install.mjs";
-import { route, urlFor } from "./router.mjs";
+import { route, urlFor, RULES } from "./router.mjs";
 import { sendInstall, shouldSend, DEFAULT_TELEMETRY_URL } from "./telemetry.mjs";
 import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -64,6 +64,15 @@ test("router picks our endpoints for the big jobs", () => {
     assert.match(urlFor(m, value), new RegExp(path.replace("/", "\\/")));
   }
   assert.equal(route("something totally unrelated"), null);
+});
+
+test("router prices match the live 402 quotes", async () => {
+  for (const rule of RULES) {
+    const r = await fetch("https://api.glyphcall.com" + rule.path, { redirect: "manual" });
+    const h = r.headers.get("payment-required") || "";
+    const d = JSON.parse(Buffer.from(h, "base64").toString("utf8"));
+    assert.equal(Number(d.accepts[0].amount) / 1e6, rule.price, `${rule.id} price drift`);
+  }
 });
 
 test("telemetry sends to our first-party endpoint and no secrets, with opt-out", async () => {
