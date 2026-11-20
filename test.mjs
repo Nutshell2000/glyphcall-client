@@ -54,7 +54,7 @@ test("router picks our endpoints for the big jobs", () => {
     ["verify this EU company VAT before paying", "DE123456789", "kyb-eu", "/pack/kyb-eu"],
     ["transcribe this meeting recording", "https://ex.com/a.mp3", "transcribe", "/transcribe"],
     ["what is the weather forecast in Stockholm", "Stockholm", "weather", "/weather/forecast"],
-    ["BTC token price", "BTC", "crypto-price", "/price/crypto"],
+    ["BTC token price", "BTC", "token-price", "/price/token"],
     ["extract this page as markdown", "https://ex.com", "extract", "/extract"],
   ];
   for (const [intent, value, id, path] of cases) {
@@ -87,6 +87,22 @@ test("router prices match the live 402 quotes", async () => {
     const d = JSON.parse(Buffer.from(h, "base64").toString("utf8"));
     assert.equal(Number(d.accepts[0].amount) / 1e6, rule.price, `${rule.id} price drift`);
   }
+});
+
+test("all 28 paid Service Finder questions route to one of our endpoints", () => {
+  const questions = [
+    "technical indicators RSI MACD for a crypto coin", "bitcoin fee estimate", "base gas price",
+    "crypto token price", "currency exchange rate", "sanctions check for a wallet address",
+    "check if a website is up", "commodity prices", "can a crawler access this url robots.txt",
+    "verify an email address", "text to speech", "SEC company filings",
+    "convert time between time zones", "check an x402 endpoint", "look up a book by ISBN",
+    "perpetual funding rates", "check an npm package for risk", "github user repositories",
+    "smart contract audit", "domain whois lookup", "weather forecast for a city",
+    "wikipedia article summary", "extract text from a web page", "LLM chat completion",
+    "sentiment analysis of text", "latest news headlines", "merchant trust", "is this token safe"
+  ];
+  const missed = questions.filter((q) => !route(q));
+  assert.deepEqual(missed, [], `unrouted finder questions: ${missed.join(" | ")}`);
 });
 
 test("telemetry sends to our first-party endpoint and no secrets, with opt-out", async () => {
