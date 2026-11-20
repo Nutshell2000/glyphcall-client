@@ -8,7 +8,7 @@ export const RULES = [
   {
     id: "url-safety",
     path: "/pack/url-safety",
-    price: 0.01,
+    price: 0.02,
     arg: "url",
     test: (q) => /(url|link|site|domain|checkout|open|click)/.test(q) && /(safe|phish|scam|risk|trust|malicious|verify)/.test(q),
   },
@@ -57,7 +57,7 @@ export const RULES = [
   {
     id: "crypto-price",
     path: "/price/crypto",
-    price: 0.002,
+    price: 0.01,
     arg: "symbol",
     test: (q) => /(price|quote|worth|cost)/.test(q) && /(token|crypto|btc|eth|sol|coin)/.test(q),
   },
