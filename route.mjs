@@ -16,9 +16,9 @@ if (!m) {
   console.error(`No Glyphcall route matched "${intent}". Try: url safety, kyb, e-invoice, transcribe, text to speech, extract, weather, crypto price, news, web search.`);
   process.exit(2);
 }
-if (!value) {
+if (m.arg !== null && !m.args && !value) {
   console.error(`Matched ${m.id} ($${m.priceUsd}); give the value for ${m.arg}.`);
   process.exit(2);
 }
-console.log(urlFor(m, value));
+console.log(urlFor(m, value ?? (m.args ? [] : undefined)));
 console.error(`route ${m.id} — $${m.priceUsd} per successful call; failed calls are not charged.`);
