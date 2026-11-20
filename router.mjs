@@ -8,11 +8,11 @@ export const RULES = [
   {
     id: "url-safety",
     path: "/pack/url-safety",
-    price: 0.02,
+    price: 0.01,
     arg: "url",
     test: (q) => /(url|link|site|domain|checkout|open|click)/.test(q) && /(safe|phish|scam|risk|trust|malicious|verify)/.test(q),
   },
-  { id: "sanctions", path: "/sanctions/check", price: 0.01, arg: "address",
+  { id: "sanctions", path: "/sanctions/check", price: 0.009, arg: "address",
     test: (q) => /(sanction|ofac|sdn list)/.test(q) },
   {
     id: "kyb-eu",
@@ -67,11 +67,16 @@ export const RULES = [
   // these routes let an owned client take the other jobs directly instead of shopping.
   { id: "indicators", path: "/hyperliquid/indicators", price: 0.01, arg: "coin",
     test: (q) => /(technical indicator|rsi|macd)/.test(q) },
+  // Jobs the two new repeat buyers (0x54e163, 0x5be4d4) pay other sellers for today.
+  { id: "stock-quote", path: "/stock/quote", price: 0.002, arg: "symbol",
+    test: (q) => /(stock quote|stock price|stock snapshot|unified stock)/.test(q) },
+  { id: "wallet-portfolio", path: "/wallet/portfolio", price: 0.005, arg: "address",
+    test: (q) => /(wallet portfolio|portfolio value|token holdings|wallet holdings)/.test(q) },
   { id: "btc-fees", path: "/btc-fees", price: 0.002, arg: null,
     test: (q) => /(bitcoin fee|btc fee|fee estimate)/.test(q) },
-  { id: "gas-price", path: "/gas/price", price: 0.01, arg: null,
+  { id: "gas-price", path: "/gas/price", price: 0.002, arg: null,
     test: (q) => /(gas price|base gas)/.test(q) },
-  { id: "fx-rate", path: "/fx", price: 0.01, args: ["from", "to"],
+  { id: "fx-rate", path: "/fx", price: 0.002, args: ["from", "to"],
     test: (q) => /(exchange rate|currency rate|fx rate|convert currency)/.test(q) },
   { id: "url-uptime", path: "/url/uptime", price: 0.01, arg: "url",
     test: (q) => /(website is up|site is up|url uptime|is.*website.*up)/.test(q) },
@@ -81,19 +86,19 @@ export const RULES = [
     test: (q) => /(robots\.txt|crawler access)/.test(q) },
   { id: "email-verify", path: "/email/verify", price: 0.01, arg: "address",
     test: (q) => /(verify an email|email verification|is this email valid)/.test(q) },
-  { id: "sec-filings", path: "/sec/filings", price: 0.01, arg: "ticker",
+  { id: "sec-filings", path: "/sec/filings", price: 0.002, arg: "ticker",
     test: (q) => /(sec filings|company filings)/.test(q) },
-  { id: "timezone-convert", path: "/timezone/convert", price: 0.01, args: ["at", "zone"],
+  { id: "timezone-convert", path: "/timezone/convert", price: 0.002, args: ["at", "zone"],
     test: (q) => /(convert time between|time zone convert|timezone convert)/.test(q) },
   { id: "x402-check", path: "/x402/check", price: 0.01, arg: "url",
     test: (q) => /(check an x402|x402 endpoint)/.test(q) },
   { id: "isbn", path: "/validate/isbn", price: 0.01, arg: "isbn",
     test: (q) => /(isbn|book by)/.test(q) },
-  { id: "perp-funding", path: "/perp/funding", price: 0.01, arg: "coin",
+  { id: "perp-funding", path: "/perp/funding", price: 0.002, arg: "coin",
     test: (q) => /(perpetual funding|funding rates)/.test(q) },
   { id: "package-risk", path: "/package", price: 0.002, args: ["ecosystem", "name"],
     test: (q) => /(npm package.*risk|check an npm package|package for risk)/.test(q) },
-  { id: "github-user", path: "/github/search", price: 0.01, arg: "q",
+  { id: "github-user", path: "/github/search", price: 0.002, arg: "q",
     test: (q) => /(github user|github repositories)/.test(q) },
   { id: "contract-risk", path: "/contract-risk", price: 0.01, arg: "address",
     test: (q) => /(smart contract audit|contract risk)/.test(q) },
@@ -105,7 +110,7 @@ export const RULES = [
     test: (q) => /(sentiment analysis|sentiment of text)/.test(q) },
   { id: "ai-chat", path: "/ai/chat", price: 0.002, arg: "prompt",
     test: (q) => /(chat completion|llm chat)/.test(q) },
-  { id: "token-price", path: "/price/token", price: 0.01, arg: "symbol",
+  { id: "token-price", path: "/price/token", price: 0.002, arg: "symbol",
     test: (q) => /(crypto token price|token price)/.test(q) },
   {
     id: "transcribe",
@@ -138,7 +143,7 @@ export const RULES = [
   {
     id: "crypto-price",
     path: "/price/crypto",
-    price: 0.01,
+    price: 0.002,
     arg: "symbol",
     test: (q) => /(price|quote|worth|cost)/.test(q) && /(token|crypto|btc|eth|sol|coin)/.test(q),
   },
@@ -181,3 +186,5 @@ export function urlFor(match, value) {
   }
   return `${match.url}?${encodeURIComponent(match.arg)}=${encodeURIComponent(String(value))}`;
 }
+
+
