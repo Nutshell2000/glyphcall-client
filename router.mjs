@@ -27,6 +27,41 @@ export const RULES = [
     test: (q) => /(invoice|xrechnung|zugferd|e-invoice)/.test(q) && /(check|valid|verify|accept)/.test(q),
   },
   {
+    id: "accessibility-audit",
+    path: "/audit/website",
+    price: 0.01,
+    arg: "url",
+    test: (q) => /(accessib|wcag|axe-core|website audit)/.test(q) && !/contrast/.test(q),
+  },
+  {
+    id: "color-contrast",
+    path: "/color/contrast",
+    price: 0.01,
+    args: ["fg", "bg"],
+    test: (q) => /(color contrast|contrast ratio|wcag contrast)/.test(q),
+  },
+  {
+    id: "merchant-trust",
+    path: "/merchant/trust",
+    price: 0.02,
+    arg: "name",
+    test: (q) => /(merchant trust|shop trust|seller trust|trustworthy shop|is this shop)/.test(q),
+  },
+  {
+    id: "api-recommend",
+    path: "/recommend",
+    price: 0.01,
+    arg: "need",
+    test: (q) => /(recommend|which api|compare apis|best api for)/.test(q) && /(api|tool|service)/.test(q),
+  },
+  {
+    id: "token-verdict",
+    path: "/token/verdict",
+    price: 0.01,
+    arg: "token",
+    test: (q) => /(token safe|token verdict|rug check|due diligence|is this token)/.test(q),
+  },
+  {
     id: "transcribe",
     path: "/transcribe",
     price: 0.01,
@@ -83,11 +118,18 @@ export function route(intent, origin = DEFAULT_ORIGIN) {
   const q = intent.toLowerCase();
   const rule = RULES.find((r) => r.test(q));
   if (!rule) return null;
-  return { id: rule.id, url: `${origin.replace(/\/$/, "")}${rule.path}`, arg: rule.arg, priceUsd: rule.price };
+  return { id: rule.id, url: `${origin.replace(/\/$/, "")}${rule.path}`, arg: rule.arg,
+    ...(rule.args ? { args: rule.args } : {}), priceUsd: rule.price };
 }
 
 /** Build the actual URL when the caller supplies the argument value. */
 export function urlFor(match, value) {
   if (!match) throw new Error("no route matched");
+  if (match.args) {
+    const values = Array.isArray(value) ? value : [value];
+    if (values.length !== match.args.length) throw new Error(`${match.id} needs ${match.args.join(" and ")}`);
+    const qs = match.args.map((k, i) => `${encodeURIComponent(k)}=${encodeURIComponent(String(values[i]))}`).join("&");
+    return `${match.url}?${qs}`;
+  }
   return `${match.url}?${encodeURIComponent(match.arg)}=${encodeURIComponent(String(value))}`;
 }
