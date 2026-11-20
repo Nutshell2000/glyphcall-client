@@ -27,7 +27,14 @@ node route.mjs "is this link safe to open" https://example.com
 # -> https://api.glyphcall.com/pack/url-safety?url=https%3A%2F%2Fexample.com
 ```
 
-Fifteen job phrases are routed, including the heavy jobs we rank #1 for on Mercator:
+Thirty-seven job phrases are routed. The biggest addition covers **all 28 questions the paid
+x402 Service Finder asks** (from the stored 11 Nov answers, where we originally won only 2/28):
+bitcoin fees, gas price, FX, uptime, commodities, robots.txt, email verification, SEC filings,
+time zones, x402 checks, ISBN, funding rates, package risk, GitHub, contract audit, WHOIS,
+wikipedia, sentiment, LLM chat, token price and more. Verified against live discovery schemas so
+each URL is callable, with live prices checked by `prices.mjs`.
+
+Heavy jobs we rank #1 for on Mercator:
 `accessibility audit` → `/audit/website`, `wcag` → `/color/contrast` (two args),
 `merchant trust` → `/merchant/trust`, `which api` → `/recommend`,
 `is this token safe` → `/token/verdict`. Query parameter names were verified against the live
