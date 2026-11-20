@@ -66,6 +66,20 @@ test("router picks our endpoints for the big jobs", () => {
   assert.equal(route("something totally unrelated"), null);
 });
 
+test("heavy-job routes use the real query parameter names", () => {
+  const a11y = route("accessibility audit of my site");
+  assert.equal(a11y.id, "accessibility-audit");
+  assert.match(urlFor(a11y, "https://example.com"), /\/audit\/website\?url=/);
+  const contrast = route("color contrast check");
+  assert.match(urlFor(contrast, ["#ffffff", "#000000"]), /\/color\/contrast\?fg=%23ffffff&bg=%23000000/);
+  const trust = route("merchant trust for a shop");
+  assert.match(urlFor(trust, "acme.com"), /\/merchant\/trust\?name=/);
+  const rec = route("which api should I use for pdf text");
+  assert.match(urlFor(rec, "extract pdf text"), /\/recommend\?need=/);
+  const rug = route("is this token safe");
+  assert.match(urlFor(rug, "0x123"), /\/token\/verdict\?token=/);
+});
+
 test("router prices match the live 402 quotes", async () => {
   for (const rule of RULES) {
     const r = await fetch("https://api.glyphcall.com" + rule.path, { redirect: "manual" });
