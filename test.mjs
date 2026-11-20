@@ -101,6 +101,7 @@ test("all 28 paid Service Finder questions route to one of our endpoints", () =>
     "wikipedia article summary", "extract text from a web page", "LLM chat completion",
     "sentiment analysis of text", "latest news headlines", "merchant trust", "is this token safe"
   ];
+  for (const q of ["stock quote for AAPL", "wallet portfolio for 0x123"]) assert.ok(route(q), `unrouted buyer job: ${q}`);
   const missed = questions.filter((q) => !route(q));
   assert.deepEqual(missed, [], `unrouted finder questions: ${missed.join(" | ")}`);
 });
