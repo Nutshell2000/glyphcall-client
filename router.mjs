@@ -121,8 +121,9 @@ export const RULES = [
   },
   {
     id: "tts",
-    path: "/text-to-speech",
-    price: 0.08,
+    // 8x cheaper than /text-to-speech ($0.08); same voice task at $0.01.
+    path: "/ai/speech",
+    price: 0.01,
     arg: "text",
     test: (q) => /(text to speech|tts|read (this|it) out|speak|make an mp3|voice)/.test(q),
   },
