@@ -32,6 +32,16 @@ It returns `null` rather than guessing when nothing matches. Use its URL with `a
 or paste it into any x402/MPP client. This is the "own the thing the agent runs" lever: the
 developer never goes looking for another provider for the jobs we already rank #1 for.
 
+## Price drift
+
+```sh
+node prices.mjs
+```
+
+Checks the router's ten prices against the live 402 quotes and exits 1 on drift. Run it before
+each release: prices can change when a new server version ships (two changed during this session,
+`/pack/url-safety` 0.01→0.02 and `/price/crypto` 0.002→0.01). The same check runs in `test.mjs`.
+
 ## Doctor
 
 ```sh
